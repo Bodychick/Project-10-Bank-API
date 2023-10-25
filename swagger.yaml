@@ -57,6 +57,60 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+  /user/profile/operations/last:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Profile API
+      description: API for fetching the last banking operations of a user
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/profile/operations/details:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Profile API
+      description: API for fetching the information of a specific operation
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Operation Number
+          required: true
+          schema:
+            $ref: '#/definitions/OperationRequest'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Operations retrieved successfully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
   /user/profile:
     post:
       security:
@@ -74,13 +128,9 @@ paths:
         - application/json
       responses:
         '200':
-          description: User profile retrieved successully
+          description: User profile retrieved successfully
           schema:
             $ref: '#/definitions/ApiResponse'
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
     put:
       security:
         - Bearer: []
@@ -103,14 +153,13 @@ paths:
         - application/json
       responses:
         '200':
-          description: User profile retrieved successully
+          description: User profile updated successfully
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
           description: Invalid Fields
         '500':
           description: Internal Server Error
-          
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -164,4 +213,8 @@ definitions:
       firstName:
         type: string
       lastName:
+        type: string
+  OperationRequest:
+    properties:
+      operationsNumber:
         type: string
