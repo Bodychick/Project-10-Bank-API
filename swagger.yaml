@@ -63,7 +63,7 @@ paths:
         - Bearer: []
       tags:
         - User Module
-      summary: User Profile API
+      summary: Get the last operations
       description: API for fetching the last banking operations of a user
       parameters:
         - in: header
@@ -105,6 +105,123 @@ paths:
       responses:
         '200':
           description: Operations retrieved successfully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/profile/operations/add:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Profile API
+      description: Add an operation
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: body
+          name: AddOperationRequest
+          description: Request to add an operation
+          required: true
+          schema:
+            type: object
+            properties:
+              texte:
+                type: string
+                description: Description of the transaction
+              amount:
+                type: number
+                description: Amount of the transaction
+              transactionType:
+                type: string
+                description: Type of the transaction
+              category:
+                type: string
+                description: Category of the transaction
+              text:
+                type: string
+                description: (Optional) Additional text
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Operation added successfully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /user/profile/operations/edit:
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Profile API
+      description: API for updating a user operation
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: UpdateOperationRequest
+          description: Request to update an operation
+          required: true
+          schema:
+            type: object
+            properties:
+              operationId:
+                type: integer
+                description: The ID of the operation to be updated
+              category:
+                type: string
+                description: New category for the operation (optional)
+              text:
+                type: string
+                description: New text for the operation (optional)
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Operation updated successfully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/profile/operations/delete:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Profile API
+      description: Delete an operations
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: UpdateOperationRequest
+          description: Request to update an operation
+          required: true
+          schema:
+            type: object
+            properties:
+              operationId:
+                type: integer
+                description: The ID of the operation to be updated
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Operation updated successfully
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
@@ -210,6 +327,8 @@ definitions:
   UserProfile:
     type: object
     properties:
+      email:
+        type: string
       firstName:
         type: string
       lastName:
